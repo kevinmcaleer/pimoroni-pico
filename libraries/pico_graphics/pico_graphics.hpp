@@ -300,6 +300,7 @@ namespace pimoroni {
 
       virtual void update(PicoGraphics *display) {};
       virtual void set_backlight(uint8_t brightness) {};
+      virtual bool is_busy() {return false;};
   };
 
 }

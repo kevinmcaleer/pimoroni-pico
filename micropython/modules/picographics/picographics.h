@@ -9,7 +9,8 @@ enum PicoGraphicsDisplay {
     DISPLAY_PICO_EXPLORER,
     DISPLAY_TUFTY_2040,
     DISPLAY_ENVIRO_PLUS,
-    DISPLAY_LCD_160X80
+    DISPLAY_LCD_160X80,
+    DISPLAY_INKY_FRAME
 };
 
 enum PicoGraphicsPenType {

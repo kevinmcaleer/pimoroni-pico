@@ -1,5 +1,6 @@
 #include "drivers/st7789/st7789.hpp"
 #include "drivers/st7735/st7735.hpp"
+#include "drivers/uc8159/uc8159.hpp"
 #include "libraries/pico_graphics/pico_graphics.hpp"
 #include "common/pimoroni_common.hpp"
 #include "common/pimoroni_bus.hpp"
@@ -58,6 +59,10 @@ bool get_display_settings(PicoGraphicsDisplay display, int &width, int &height, 
             width = 160;
             height = 80;
             break;
+        case DISPLAY_INKY_FRAME:
+            width = 600;
+            height = 448;
+            break;
         default:
             return false;
     }
@@ -82,13 +87,14 @@ size_t get_required_buffer_size(PicoGraphicsPenType pen_type, uint width, uint h
 mp_obj_t ModPicoGraphics_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *all_args) {
     ModPicoGraphics_obj_t *self = nullptr;
 
-    enum { ARG_display, ARG_rotate, ARG_bus, ARG_buffer, ARG_pen_type };
+    enum { ARG_display, ARG_rotate, ARG_bus, ARG_buffer, ARG_pen_type, ARG_extra_pins };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_display, MP_ARG_INT | MP_ARG_REQUIRED },
         { MP_QSTR_rotate, MP_ARG_INT, { .u_int = -1 } },
         { MP_QSTR_bus, MP_ARG_OBJ, { .u_obj = mp_const_none } },
         { MP_QSTR_buffer, MP_ARG_OBJ, { .u_obj = mp_const_none } },
         { MP_QSTR_pen_type, MP_ARG_INT, { .u_int = PEN_RGB332 } },
+        { MP_QSTR_extra_pins, MP_ARG_OBJ, { .u_obj = mp_const_none } },
     };
 
     // Parse args.
@@ -110,7 +116,19 @@ mp_obj_t ModPicoGraphics_make_new(const mp_obj_type_t *type, size_t n_args, size
     if(rotate == -1) rotate = (int)Rotation::ROTATE_0;
 
     // Try to create an appropriate display driver
-    if (display == DISPLAY_TUFTY_2040) {
+    if (display == DISPLAY_INKY_FRAME) {
+        pen_type = PEN_P4; // FORCE to P4 since it's the only supported mode
+        // TODO grab BUSY and RESET from ARG_extra_pins
+        if (args[ARG_bus].u_obj == mp_const_none) {
+            self->display = m_new_class(UC8159, width, height);
+        } else if (mp_obj_is_type(args[ARG_bus].u_obj, &SPIPins_type)) {
+            _PimoroniBus_obj_t *bus = (_PimoroniBus_obj_t *)MP_OBJ_TO_PTR(args[ARG_bus].u_obj);
+            self->display = m_new_class(UC8159, width, height, *(SPIPins *)(bus->pins));
+        } else {
+            mp_raise_ValueError("SPIBus expected!");
+        }
+    }
+    else if (display == DISPLAY_TUFTY_2040) {
         if (args[ARG_bus].u_obj == mp_const_none) {
             self->display = m_new_class(ST7789, width, height, (Rotation)rotate, {10, 11, 12, 13, 14, 2});
         } else if (mp_obj_is_type(args[ARG_bus].u_obj, &ParallelPins_type)) {
@@ -182,7 +200,9 @@ mp_obj_t ModPicoGraphics_make_new(const mp_obj_type_t *type, size_t n_args, size
     self->graphics->clear();
 
     // Update the LCD from the graphics library
-    self->display->update(self->graphics);
+    if (display != DISPLAY_INKY_FRAME) {
+        self->display->update(self->graphics);
+    }
 
     return MP_OBJ_FROM_PTR(self);
 }
@@ -305,7 +325,20 @@ mp_obj_t ModPicoGraphics_update(mp_obj_t self_in) {
         self->graphics->scanline_interrupt = nullptr;
     }
 */
+
+    while(self->display->is_busy()) {
+    #ifdef MICROPY_EVENT_POLL_HOOK
+    MICROPY_EVENT_POLL_HOOK
+    #endif
+    }
+
     self->display->update(self->graphics);
+
+    while(self->display->is_busy()) {
+    #ifdef MICROPY_EVENT_POLL_HOOK
+    MICROPY_EVENT_POLL_HOOK
+    #endif
+    }
 
     return mp_const_none;
 }
