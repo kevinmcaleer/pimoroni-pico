@@ -23,15 +23,15 @@ CYAN = display.create_pen(33, 177, 255)
 
 # Uncomment one of these to change flag
 # If adding your own, colour order is left to right (or top to bottom)
-COLOUR_ORDER = [RED, ORANGE, YELLOW, GREEN, INDIGO, VIOLET] # traditional pride flag
-#COLOUR_ORDER = [BLACK, BROWN, RED, ORANGE, YELLOW, GREEN, INDIGO, VIOLET] # Philadelphia pride flag
-#COLOUR_ORDER = [BLUE, PINK, WHITE, PINK, BLUE] # trans flag
-#COLOUR_ORDER = [MAGENTA, YELLOW, CYAN] # pan flag
-#COLOUR_ORDER = [MAGENTA, VIOLET, INDIGO] # bi flag
+COLOUR_ORDER = [RED, ORANGE, YELLOW, GREEN, INDIGO, VIOLET]  # traditional pride flag
+# COLOUR_ORDER = [BLACK, BROWN, RED, ORANGE, YELLOW, GREEN, INDIGO, VIOLET]  # Philadelphia pride flag
+# COLOUR_ORDER = [BLUE, PINK, WHITE, PINK, BLUE]  # trans flag
+# COLOUR_ORDER = [MAGENTA, YELLOW, CYAN]  # pan flag
+# COLOUR_ORDER = [MAGENTA, VIOLET, INDIGO]  # bi flag
 
 # Change this for vertical stripes
 STRIPES_DIRECTION = "horizontal"
-       
+
 # Change details here! Works best with a short, one word name
 NAME = "Hel"
 PRONOUNS = "She/they"
@@ -42,14 +42,14 @@ DROP_SHADOW_COLOUR = BLACK
 
 # Draw the flag
 if STRIPES_DIRECTION == "horizontal":
-    stripe_width = round(HEIGHT/len(COLOUR_ORDER))
-    for x in range (len(COLOUR_ORDER)):
+    stripe_width = round(HEIGHT / len(COLOUR_ORDER))
+    for x in range(len(COLOUR_ORDER)):
         display.set_pen(COLOUR_ORDER[x])
         display.rectangle(0, stripe_width * x, WIDTH, stripe_width)
 
 if STRIPES_DIRECTION == "vertical":
-    stripe_width = round(WIDTH/len(COLOUR_ORDER))
-    for x in range (len(COLOUR_ORDER)):
+    stripe_width = round(WIDTH / len(COLOUR_ORDER))
+    for x in range(len(COLOUR_ORDER)):
         display.set_pen(COLOUR_ORDER[x])
         display.rectangle(stripe_width * x, 0, stripe_width, HEIGHT)
 
@@ -65,12 +65,12 @@ while True:
     if name_length >= WIDTH - 20:
         name_size -= 1
     else:
-        #comment out this section if you hate drop shadow
+        # comment out this section if you hate drop shadow
         DROP_SHADOW_OFFSET = 5
         display.set_pen(DROP_SHADOW_COLOUR)
         display.text(NAME, int((WIDTH - name_length) / 2 + 10) - DROP_SHADOW_OFFSET, 10 + DROP_SHADOW_OFFSET, 0, name_size)
-        
-        #draw name and stop looping
+
+        # draw name and stop looping
         display.set_pen(TEXT_COLOUR)
         display.text(NAME, int((WIDTH - name_length) / 2 + 10), 10, 0, name_size)
         break
@@ -81,7 +81,7 @@ while True:
     if pronouns_length >= WIDTH - 60:
         pronouns_size -= 1
     else:
-        #draw pronouns and stop looping
+        # draw pronouns and stop looping
         display.set_pen(TEXT_COLOUR)
         display.text(PRONOUNS, int((WIDTH - pronouns_length) / 2), 175, 0, pronouns_size)
         break
