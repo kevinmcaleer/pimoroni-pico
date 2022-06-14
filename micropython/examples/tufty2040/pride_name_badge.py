@@ -68,11 +68,11 @@ while True:
         # comment out this section if you hate drop shadow
         DROP_SHADOW_OFFSET = 5
         display.set_pen(DROP_SHADOW_COLOUR)
-        display.text(NAME, int((WIDTH - name_length) / 2 + 10) - DROP_SHADOW_OFFSET, 10 + DROP_SHADOW_OFFSET, 0, name_size)
+        display.text(NAME, int((WIDTH - name_length) / 2 + 10) - DROP_SHADOW_OFFSET, 10 + DROP_SHADOW_OFFSET, WIDTH, name_size)
 
         # draw name and stop looping
         display.set_pen(TEXT_COLOUR)
-        display.text(NAME, int((WIDTH - name_length) / 2 + 10), 10, 0, name_size)
+        display.text(NAME, int((WIDTH - name_length) / 2 + 10), 10, WIDTH, name_size)
         break
 
 while True:
@@ -83,7 +83,7 @@ while True:
     else:
         # draw pronouns and stop looping
         display.set_pen(TEXT_COLOUR)
-        display.text(PRONOUNS, int((WIDTH - pronouns_length) / 2), 175, 0, pronouns_size)
+        display.text(PRONOUNS, int((WIDTH - pronouns_length) / 2), 175, WIDTH, pronouns_size)
         break
 
 # Once all the adjusting and drawing is done, update the display.
