@@ -54,11 +54,11 @@ if STRIPES_DIRECTION == "vertical":
         display.rectangle(stripe_width * x, 0, stripe_width, HEIGHT)
 
 # Set a starting scale for text size.
-# This is intentionally bigger than will fit on the screen, we'll scale it to fit.
+# This is intentionally bigger than will fit on the screen, we'll shrink it to fit.
 name_size = 20
 pronouns_size = 20
 
-# These loops adjusts the scale of the text until they fit on the screen
+# These loops adjust the scale of the text until it fits on the screen
 while True:
     display.set_font("bitmap8")
     name_length = display.measure_text(NAME, name_size)
