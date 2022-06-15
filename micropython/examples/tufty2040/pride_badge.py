@@ -1,8 +1,8 @@
-# A retro name badge with customisable Pride flag background.
+# A name badge with customisable Pride flag background.
 
-from picographics import PicoGraphics, DISPLAY_TUFTY_2040, PEN_RGB565
+from picographics import PicoGraphics, DISPLAY_TUFTY_2040
 
-display = PicoGraphics(display=DISPLAY_TUFTY_2040, pen_type=PEN_RGB565, rotate=180)
+display = PicoGraphics(display=DISPLAY_TUFTY_2040)
 
 WIDTH, HEIGHT = display.get_bounds()
 

@@ -15,10 +15,13 @@ vref_adc = ADC(28)
 vref_en = Pin(27)
 vref_en.init(Pin.OUT)
 vref_en.value(0)
-usb_power = Pin(24, Pin.IN)          # reading GP24 tells us whether or not USB power is connected
+usb_power = Pin(24, Pin.IN)         # reading GP24 tells us whether or not USB power is connected
 
-full_battery = 4.0                  # reference voltages for a full/empty battery, in volts
-empty_battery = 2.4                 # the values could vary by battery size/manufacturer so you might need to adjust them
+# Reference voltages for a full/empty battery, in volts
+# the values could vary by battery size/manufacturer so you might need to adjust them
+# Values for a Galleon 400mAh LiPo:
+full_battery = 3.7
+empty_battery = 2.5
 
 # set up some colours to draw with
 WHITE = display.create_pen(255, 255, 255)

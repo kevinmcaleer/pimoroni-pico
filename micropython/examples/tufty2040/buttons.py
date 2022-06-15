@@ -73,4 +73,4 @@ while True:
         display.text("Press any button!", 10, 10, WIDTH, 3)
         display.update()
 
-    time.sleep(0.1)  # this number is how frequently the Pico checks for button presses
+    time.sleep(0.1)  # this number is how frequently Tufty checks for button presses
