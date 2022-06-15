@@ -69,7 +69,7 @@ def draw_badge():
     # draw name text
     display.set_pen(LIGHTEST)
     display.set_font("bitmap8")
-    display.text(NAME, BORDER_SIZE + PADDING, BORDER_SIZE + PADDING + COMPANY_HEIGHT,  WIDTH, 5)
+    display.text(NAME, BORDER_SIZE + PADDING, BORDER_SIZE + PADDING + COMPANY_HEIGHT, WIDTH, 5)
 
     # draws the bullet points
     display.set_pen(DARKEST)
@@ -138,7 +138,7 @@ draw_badge()
 show_photo()
 display.update()
 
-while True:  
+while True:
     if button_c.is_pressed:
         if badge_mode == "photo":
             badge_mode = "qr"
