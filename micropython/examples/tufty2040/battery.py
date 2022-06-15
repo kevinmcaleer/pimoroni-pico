@@ -45,7 +45,7 @@ while True:
 
     # Print out the voltage
     print("Battery Voltage = ", vbat, "V", sep="")
-    
+
     # convert the raw ADC read into a voltage, and then a percentage
     percentage = 100 * ((vbat - empty_battery) / (full_battery - empty_battery))
     if percentage > 100:
@@ -76,3 +76,4 @@ while True:
 
     display.update()
     time.sleep(0.5)
+    
