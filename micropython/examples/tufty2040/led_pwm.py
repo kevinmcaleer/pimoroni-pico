@@ -4,7 +4,7 @@
 from machine import Pin, PWM
 from time import sleep
 
-pwm = machine.PWM(Pin(25))
+pwm = PWM(Pin(25))
 
 pwm.freq(1000)
 
